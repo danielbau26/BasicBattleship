@@ -1,13 +1,13 @@
 import java.util.Scanner;
 
-public class Battership {
+public class Battleship {
     public static void main (String[] args){
 
         Scanner in = new Scanner(System.in);
-        Battership test = new Battership();
+        Battleship test = new Battleship();
 
         while (true){
-            test.menu(in);
+
             int opcion = test.menu(in);
 
             if (opcion == 1){
@@ -30,7 +30,7 @@ public class Battership {
                 }
 
                 System.out.println("Recuerda lo siguiente: ");
-                System.out.println("Debes indicar las coordenadas X para cada barco o disparo. Recuerda que los barcos no se deben solapar.");
+                System.out.println("Debes indicar las coordenadas X para cada barco o disparo. Recuerda que los barcos no se deben asolapar.");
                 System.out.println("Ahora comenzemos a jugar");
 
                 System.out.println("");
@@ -54,12 +54,12 @@ public class Battership {
                         System.out.println("Número fuera del rango.");                    
                     }
                 }
-                System.out.println("Se ha ubicado la lancha en la casilla " + lancha);
+                System.out.println("Se ha ubicado la lancha en la casillas " + lancha);
                 System.out.println("");
 
                 // Se pide la primera coordenada del barco médico
                 int posicionMedico1 = 0;
-                System.out.println("Ubica tu Barco Médico (ocupación 2 casilla): ");
+                System.out.println("Ubica tu Barco Médico (ocupación 2 casillas): ");
                 System.out.println("Ingrese la coordenada inicial del Barco Médico (1-10)");
 
                 // Se verifica si la coordenada se encuentra dentro del rango, no este ocupada y se ubica una parte del barco en el tablero
@@ -107,74 +107,58 @@ public class Battership {
                 System.out.println("Se ha ubicado el barco médico en las casillas (" + posicionMedico1 + ", " + posicionMedico2 + ")");
                 System.out.println("");
 
-                // Se pide la primera coordenada del barco munición
                 int posicionMunicion1 = 0;
-                System.out.println("Ubica tu Barco Munición (ocupación 3 casilla): ");
+                System.out.println("Ubica tu Barco Munición (ocupación 3 casillas): ");
                 System.out.println("Ingrese la coordenada inicial del Barco Munición (1-10)");
-
+        
                 // Se verifica si la coordenada se encuentra dentro del rango, no este ocupada y se ubica una parte del barco en el tablero
                 while(true){
                     System.out.print("Coordenada 1: ");
                     posicionMunicion1 = in.nextInt();
                     if (posicionMunicion1>=1 && posicionMunicion1<=10){
-                        if (tablero[posicionMunicion1-1] == 0){
-                            tablero[posicionMunicion1-1] = 1;
-                            break; 
+
+                        if (posicionMunicion1<=8){
+                            if (tablero[posicionMunicion1-1]==0 && tablero[posicionMunicion1] == 0 && tablero[posicionMunicion1+1] == 0){
+                                tablero[posicionMunicion1-1] = 1;
+                                break;
+                            }else{
+                                System.out.println("Esa posición se encuentra ocupada o no hay suficientes espacio para el barco, ingrese otra coordenada.");
+                            }
+                        }else if (posicionMunicion1>=3){
+                            if (tablero[posicionMunicion1-1]==0 && tablero[posicionMunicion1-2]==0 && tablero[posicionMunicion1-3] == 0){
+                                tablero[posicionMunicion1-1] = 1;
+                                break;
+                            }else{
+                                System.out.println("Esa posición se encuentra ocupada o no hay suficientes espacio para el barco, ingrese otra coordenada.");
+                            }
                         }else{
-                            System.out.println("Esa posición se encuentra ocupada, ingrese otra coordenada");
+                            System.out.println("Tienes que ubicar la coordenada con dos espacios vacios ya sea hacia adelante o atras, ingrese otra coordenada.");
                         }
+
                     }else{
                         System.out.println("Número fuera del rango.");                  
                     }
                 }
-
+        
                 int posicionMunicion2 = 0;
                 System.out.println("Ingrese la coordenada final del Barco Munición (1-10)");
-
+        
                 // Se verifica si la coordenada se encuentra dentro del rango, no este ocupada, este dos espacios antes o despues a la coordenada anterior y se agrega la otra parte del barco al tablero
                 while(true){
                     System.out.print("Coordenada 2: ");
                     posicionMunicion2 = in.nextInt();
                     if (posicionMunicion2>=1 && posicionMunicion2<=10){
-
-                        if (posicionMunicion2<posicionMunicion1){
-
-                            if (tablero[posicionMunicion2-1] == 0 && tablero[posicionMunicion2] == 0){
-                                if (posicionMunicion2>posicionMunicion1 && posicionMunicion2<posicionMunicion1+3){
-                                    tablero[posicionMunicion2-1] = 1;
-                                    tablero[posicionMunicion2] = 1;
-                                    break;
-                                }else if (posicionMunicion2<posicionMunicion1 && posicionMunicion2>posicionMunicion1-3){
-                                    tablero[posicionMunicion2-1] = 1;
-                                    tablero[posicionMunicion2] = 1;
-                                    break;
-                                }else{
-                                    System.out.println("Tienes que ubicar la coordenada dos espacios antes o despues de la coordenada " + posicionMunicion1);
-                                }
-                            }else {
-                                System.out.println("Esa posición se encuentra ocupada o la posición superior, ingrese otra coordenada");
+                        if (posicionMunicion2>posicionMunicion1 && posicionMunicion2==posicionMunicion1+2){
+                            tablero[posicionMunicion2-1] = 1;
+                            tablero[posicionMunicion2-2] = 1;
+                            break;
+                        }else if (posicionMunicion2<posicionMunicion1 && posicionMunicion2==posicionMunicion1-2){
+                            tablero[posicionMunicion2-1] = 1;
+                            tablero[posicionMunicion2] = 1;
+                                break;
+                        }else{
+                            System.out.println("Tienes que ubicar la coordenada dos espacios antes o despues de la coordenada " + posicionMunicion1);
                             }
-
-                        }else if (posicionMunicion2>posicionMunicion1){
-
-                            if (tablero[posicionMunicion2-1] == 0 && tablero[posicionMunicion2-2] == 0){
-
-                                if (posicionMedico2>posicionMedico1 && posicionMedico2<posicionMedico1+3){
-                                    tablero[posicionMedico2-1] = 1;
-                                    tablero[posicionMunicion2-2] = 1;
-                                    break;
-                                }else if (posicionMedico2<posicionMedico1 && posicionMedico2>posicionMedico1+3){
-                                    tablero[posicionMedico2-1] = 1;
-                                    tablero[posicionMunicion2-2] = 1;
-                                    break;
-                                }else{
-                                    System.out.println("Tienes que ubicar la coordenada dos espacios antes o despues de la coordenada " + posicionMunicion1);
-                                }
-                            }else {
-                                System.out.println("Esa posición se encuentra ocupada o la posición anterior, ingrese otra coordenada");
-                                }
-                        }
-
                     }else {
                         System.out.println("Número fuera del rango.");                
                     }
