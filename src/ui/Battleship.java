@@ -3,15 +3,15 @@ import java.util.Random;
 
 public class Battleship {
 
-    // Ubicacaciones del jugador
-    private int lanchaJugador;
-    private int medicoJugador1;
-    private int medicoJugador2;
-    private int municionJugador1;
-    private int municionJugador2;
-    private int municionJugador3;
+    // Positions the player
+    private int playerBoat;
+    private int playerMedicShip1;
+    private int playerMedicShip2;
+    private int playerAmmoShip1;
+    private int playerAmmoShip2;
+    private int playerAmmoShip3;
 
-    // Ubicacaciones de la maquina
+    // Positions of the machine
     private int numeroMaquinaLancha;
     private int numeroMaquinaMedico1;
     private int numeroMaquinaMedico2;
@@ -31,44 +31,44 @@ public class Battleship {
 
         while (true){
 
-            int opcion = game.menu(in);
+            int option = game.menu(in);
 
-            if (opcion == 1){
+            if (option == 1){
                 System.out.println("");
-                System.out.println("Desea un breve tutorial?");
-                System.out.println("1. Sí.");
-                System.out.println("2. No.");
+                System.out.println("Do you want to a short tutorial?");
+                System.out.println("1. Yes, I do.");
+                System.out.println("2. No, I don't.");
 
                 game.tutorial(in);
 
-                System.out.println("Recuerda lo siguiente: ");
-                System.out.println("Debes indicar la coordenada para cada barco o disparo.");
+                System.out.println("Remember the next things: ");
+                System.out.println("You must indicate the coordinates for each ship or shoot");
                 System.out.println("Y ten en cuenta que los barcos no se deben superponer.");
-                System.out.println("");
+                System.out.println("And remember that the ships don't must __");
                 System.out.println("¡Ahora comencemos a ubicar los barcos!");
                 System.out.println("");
 
                 //Se inicia nuestro arreglo que va a funcionar como el tablero del jugador
-                int [] tableroJugador = new int[10];
-                tableroJugador = game.jugadorUbicaSusBarcos(in, tableroJugador);
+                int [] playerBoard = new int[10];
+                playerBoard = game.jugadorUbicaSusBarcos(in, playerBoard);
 
                 //Se inicia nuestro arreglo que va a guardar la infroamción de la ubicación de la maquina
-                int [] tableroMaquina = new int[10];
+                int [] machineBoard = new int[10];
 
-                int [] tableroVisibleJugador = new int[10];
+                int [] playerVisionBoard = new int[10];
 
                 System.out.println("Muy bien, ahora empezemos ahora a jugar");
 
-                tableroMaquina = game.maquinaUbicaSusBarcos(random, tableroMaquina); // Necesito guardar el valor de tablero maquina sin que aparezca en pantalla
+                machineBoard = game.maquinaUbicaSusBarcos(random, machineBoard);
 
                 System.out.println("");
 
-                tableroJugador = game.disparo(in, random, tableroJugador, tableroMaquina, tableroVisibleJugador);
+                playerBoard = game.shot(in, random, playerBoard, machineBoard, playerVisionBoard);
         
 
             }else {
                 System.out.println("");
-                System.out.println("Gracias por jugar.");
+                System.out.println("Thanks for played.");
                 System.out.println("");
                 break;
             }
@@ -81,41 +81,41 @@ public class Battleship {
     public int menu (Scanner in){
 
         System.out.println("");
-        int opcion = 0;
-        System.out.println("Bienvenido a una simulación del juego de Battleship");
-        System.out.println("Seleccione la opción que desea realizar: ");
-        System.out.println("1. Jugar");
-        System.out.println("2. Salir del programa");
+        int option = 0;
+        System.out.println("Welcome to a Battleship simulator game");
+        System.out.println("Select the option that you want to do");
+        System.out.println("1. Play");
+        System.out.println("2. Exit the game");
 
         while(true){
-            System.out.print("Selección: ");
-            opcion = in.nextInt();
-            if (opcion>=1 && opcion<=2){
+            System.out.print("Select: ");
+            option = in.nextInt();
+            if (option>=1 && option<=2){
                 break;
             }else{
-                System.out.println("Número fuera del rango.");                    
+                System.out.println("Number out of range.");                    
             }
         }
 
-        return opcion;
+        return option;
     }
 
     public void tutorial (Scanner in){
 
         int verifica;
         while(true){
-            System.out.print("Selección: ");
+            System.out.print("Select: ");
             verifica = in.nextInt();
             if (verifica>=1 && verifica<=2){
                 break;
             }else{
-                System.out.println("Número fuera del rango.");                    
+                System.out.println("Numbre out of range.");                    
             }
         }
         System.out.println("");
 
         if (verifica == 1){
-            System.out.println("REGLAS BÁSICAS:");
+            System.out.println("Basics rules:");
             System.out.println("1. El tablero Es una línea de 10 casillas (1x10).");
             System.out.println("2. BARCOS:");
             System.out.println("   - Lancha: ocupa 1 casilla.");
@@ -140,67 +140,67 @@ public class Battleship {
         }
     }
 
-    public int [] jugadorUbicaSusBarcos (Scanner in, int [] tablero){
+    public int [] jugadorUbicaSusBarcos (Scanner in, int [] board){
 
         // Se pide la coordenada de la lancha
-        lanchaJugador = 0;
-        System.out.println("Ubica tu lancha (ocupación 1 casilla): ");
+        playerBoat = 0;
+        System.out.println("Locate your boat (ocupation 1 box): ");
         System.out.println("Ingrese la coordenada de la Lancha (1-10)");
 
         // Se verifica si la coordenada se encuentra dentro del rango y se agrega el barco al tablero
         while(true){
             System.out.print("Coordenada: ");
-            lanchaJugador = in.nextInt();
-            if (lanchaJugador>=1 && lanchaJugador<=10){
-                tablero[lanchaJugador-1] = 1;
+            playerBoat = in.nextInt();
+            if (playerBoat>=1 && playerBoat<=10){
+                board[playerBoat-1] = 1;
                 break;
             }else{
-                System.out.println("Número fuera del rango.");                    
+                System.out.println("Number out of range.");                    
             }
         }
-        System.out.println("Se ha ubicado la lancha en la casilla " + lanchaJugador);
+        System.out.println("Se ha ubicado la lancha en la casilla " + playerBoat);
         System.out.println("Así va tu tablero:");
-        mostrarTablero(tablero);
+        mostrarTablero(board);
 
         // Se pide la coordenada inicial del barco médico
-        medicoJugador1 = 0;
-        System.out.println("Ubica tu Barco Médico (ocupación 2 casillas): ");
+        playerMedicShip1 = 0;
+        System.out.println("Locate your Medic ship (ocupation 2 boxs): ");
         System.out.println("Ingrese la coordenada inicial del Barco Médico (1-10)");
 
         // Se verifica si la coordenada se encuentra dentro del rango, no este ocupada y se ubica una parte del barco en el tablero
         while(true){
             System.out.print("Coordenada 1: ");
-            medicoJugador1 = in.nextInt();
-            if (medicoJugador1>=1 && medicoJugador1<=10){
-                if (tablero[medicoJugador1-1] == 0){
-                    tablero[medicoJugador1-1] = 1;
+            playerMedicShip1 = in.nextInt();
+            if (playerMedicShip1>=1 && playerMedicShip1<=10){
+                if (board[playerMedicShip1-1] == 0){
+                    board[playerMedicShip1-1] = 1;
                     break; 
                 }else{
                     System.out.println("Esa posición se encuentra ocupada, ingrese otra coordenada");
                 }
             }else{
-                System.out.println("Número fuera del rango.");                  
+                System.out.println("Number out of range.");                  
             }
         }
 
         // Se pide la coordenada final del barco médico
-        medicoJugador2 = 0;
+        playerMedicShip2 = 0;
         System.out.println("Ingrese la coordenada final del Barco Médico (1-10)");
 
         // Se verifica si la coordenada se encuentra dentro del rango, no este ocupada, este seguida a la coordenada anterior y se agrega la otra parte del barco al tablero
         while(true){
             System.out.print("Coordenada 2: ");
-            medicoJugador2 = in.nextInt();
-            if (medicoJugador2>=1 && medicoJugador2<=10){
-                if (tablero[medicoJugador2-1] == 0){
-                    if (medicoJugador2>medicoJugador1 && medicoJugador2<medicoJugador1+2){
-                        tablero[medicoJugador2-1] = 1;
+            playerMedicShip2 = in.nextInt();
+            if (playerMedicShip2>=1 && playerMedicShip2<=10){
+                if (board[playerMedicShip2-1] == 0){
+                    if (playerMedicShip2>playerMedicShip1 && playerMedicShip2<playerMedicShip1+2){
+                        board[playerMedicShip2-1] = 1;
                         break;
-                    }else if (medicoJugador2<medicoJugador1 && medicoJugador2>medicoJugador1-2){
-                        tablero[medicoJugador2-1] = 1;
+                    }else if (playerMedicShip2<playerMedicShip1 && playerMedicShip2>playerMedicShip1-2){
+                        board[playerMedicShip2-1] = 1;
                         break;
                     }else{
-                        System.out.println("Tienes que ubicar la coordenada seguida de la coordenada " + medicoJugador1);
+                        System.out.println("Tienes que ubicar la coordenada seguida de la coordenada " + playerMedicShip1);
                     }
                 }else {
                     System.out.println("Esa posición se encuentra ocupada, ingrese otra coordenada");
@@ -209,32 +209,32 @@ public class Battleship {
                 System.out.println("Número fuera del rango.");                
             }
         }
-        System.out.println("Se ha ubicado el barco médico en las casillas (" + medicoJugador1 + " - " + medicoJugador2 + ")");
+        System.out.println("Se ha ubicado el barco médico en las casillas (" + playerMedicShip1 + " - " + playerMedicShip2 + ")");
         System.out.println("Así va tu tablero:");
-        mostrarTablero(tablero);
+        mostrarTablero(board);
 
         // Se pide la coordenada inicial del barco munición
-        municionJugador1 = 0;
-        System.out.println("Ubica tu Barco Munición (ocupación 3 casillas): ");
+        playerAmmoShip1 = 0;
+        System.out.println("Locate your Ammon ship (ocupation 3 boxs): ");
         System.out.println("Ingrese la coordenada inicial del Barco Munición (1-10)");
 
         // Se verifica si la coordenada se encuentra dentro del rango, no este ocupada, halla suficiente espacio a los lados para la otra parte y se ubica una parte del barco en el tablero
         while(true){
             System.out.print("Coordenada 1: ");
-            municionJugador1 = in.nextInt();
-            if (municionJugador1>=1 && municionJugador1<=10){
+            playerAmmoShip1 = in.nextInt();
+            if (playerAmmoShip1>=1 && playerAmmoShip1<=10){
 
-                if (municionJugador1<=8 && tablero[municionJugador1-1]==0 && tablero[municionJugador1] == 0 && tablero[municionJugador1+1] == 0){
-                    tablero[municionJugador1-1] = 1;
+                if (playerAmmoShip1<=8 && board[playerAmmoShip1-1]==0 && board[playerAmmoShip1] == 0 && board[playerAmmoShip1+1] == 0){
+                    board[playerAmmoShip1-1] = 1;
                     break;
-                }else if (municionJugador1>=3){
-                    if (tablero[municionJugador1-1]==0 && tablero[municionJugador1-2]==0 && tablero[municionJugador1-3] == 0){
-                        tablero[municionJugador1-1] = 1;
+                }else if (playerAmmoShip1>=3){
+                    if (board[playerAmmoShip1-1]==0 && board[playerAmmoShip1-2]==0 && board[playerAmmoShip1-3] == 0){
+                        board[playerAmmoShip1-1] = 1;
                         break;
                     }else{
                         System.out.println("Esa posición se encuentra ocupada o no hay suficientes espacio para el barco, ingrese otra coordenada.");
                     }
-                }else if (municionJugador1<=8){
+                }else if (playerAmmoShip1<=8){
                     System.out.println("Esa posición se encuentra ocupada o no hay suficientes espacio para el barco, ingrese otra coordenada.");
                 }else{
                     System.out.println("Tienes que ubicar la coordenada con dos espacios vacios ya sea hacia adelante o atras, ingrese otra coordenada.");
@@ -246,49 +246,49 @@ public class Battleship {
         }
 
         // Se pide la coordenada final del barco munición
-        municionJugador2 = 0;
+        playerAmmoShip3 = 0;
         System.out.println("Ingrese la coordenada final del Barco Munición (1-10)");
 
         // Se verifica si la coordenada se encuentra dentro del rango, este dos espacios antes o despues a la coordenada anterior y se agrega la otra parte del barco al tablero
         while(true){
             System.out.print("Coordenada 2: ");
-            municionJugador3 = in.nextInt();
-            if (municionJugador3>=1 && municionJugador3<=10){
-                if (municionJugador3>municionJugador1 && municionJugador3==municionJugador1+2 && tablero[municionJugador3-1]==0 && tablero[municionJugador3-2]==0){
-                    tablero[municionJugador3-1] = 1;
-                    municionJugador2 = municionJugador3-1;
-                    tablero[municionJugador2-1] = 1;
+            playerAmmoShip3 = in.nextInt();
+            if (playerAmmoShip3>=1 && playerAmmoShip3<=10){
+                if (playerAmmoShip3>playerAmmoShip1 && playerAmmoShip3==playerAmmoShip1+2 && board[playerAmmoShip3-1]==0 && board[playerAmmoShip3-2]==0){
+                    board[playerAmmoShip3-1] = 1;
+                    playerAmmoShip2 = playerAmmoShip3-1;
+                    board[playerAmmoShip2-1] = 1;
                     break;
-                }else if (municionJugador3<municionJugador1 && municionJugador3==municionJugador1-2 && tablero[municionJugador3]==0 && tablero[municionJugador3-1]==0){
-                    tablero[municionJugador3-1] = 1;
-                    municionJugador2 = municionJugador3+1;
-                    tablero[municionJugador2-1] = 1;
+                }else if (playerAmmoShip3<playerAmmoShip1 && playerAmmoShip3==playerAmmoShip1-2 && board[playerAmmoShip3]==0 && board[playerAmmoShip3-1]==0){
+                    board[playerAmmoShip3-1] = 1;
+                    playerAmmoShip2 = playerAmmoShip3+1;
+                    board[playerAmmoShip2-1] = 1;
                         break;
-                }else if (municionJugador3>municionJugador1 && municionJugador3==municionJugador1+2 || municionJugador3<municionJugador1 && municionJugador3==municionJugador1-2){
+                }else if (playerAmmoShip3>playerAmmoShip1 && playerAmmoShip3==playerAmmoShip1+2 || playerAmmoShip3<playerAmmoShip1 && playerAmmoShip3==playerAmmoShip1-2){
                     System.out.println("Esa posición se encuentra ocupada o no hay suficientes espacio para el barco, ingrese otra coordenada.");
                 }else{
-                    System.out.println("Tienes que ubicar la coordenada dos espacios antes o despues de la coordenada " + municionJugador1);
+                    System.out.println("Tienes que ubicar la coordenada dos espacios antes o despues de la coordenada " + playerAmmoShip1);
                     }
             }else {
                 System.out.println("Número fuera del rango.");                
             }
         }
-        System.out.println("Se ha ubicado el barco municion en las casillas (" + municionJugador1 + " - " + municionJugador2 + " - " + municionJugador3 + ")");
+        System.out.println("Se ha ubicado el barco municion en las casillas (" + playerAmmoShip1 + " - " + playerAmmoShip2 + " - " + playerAmmoShip3 + ")");
         System.out.println("");
 
 
         System.out.println("Finalmente tu tablero queda de esta forma: ");
-        mostrarTablero(tablero);
+        mostrarTablero(board);
 
-        return tablero;
+        return board;
     }
 
-    public int [] maquinaUbicaSusBarcos (Random random, int [] tableroMaquina){
+    public int [] maquinaUbicaSusBarcos (Random random, int [] machineBoard){
 
 
         numeroMaquinaLancha = random.nextInt(10);
 
-        tableroMaquina[numeroMaquinaLancha] = 1;
+        machineBoard[numeroMaquinaLancha] = 1;
 
         //La maquina ubica el barco médico
         while (true){
@@ -298,8 +298,8 @@ public class Battleship {
 
             if (numeroMaquinaMedico1 != numeroMaquinaLancha && numeroMaquinaMedico2 != numeroMaquinaLancha && numeroMaquinaMedico2 != numeroMaquinaMedico1){
                 if (numeroMaquinaMedico1+1 == numeroMaquinaMedico2 || numeroMaquinaMedico1-1 == numeroMaquinaMedico2){
-                    tableroMaquina[numeroMaquinaMedico1] = 1;
-                    tableroMaquina[numeroMaquinaMedico2] = 1;
+                    machineBoard[numeroMaquinaMedico1] = 1;
+                    machineBoard[numeroMaquinaMedico2] = 1;
                     break;
                 }
             }
@@ -311,24 +311,24 @@ public class Battleship {
 
             numeroMaquinaMunicion1 = random.nextInt(10);
 
-            if (numeroMaquinaMunicion1<=7 && tableroMaquina[numeroMaquinaMunicion1+1] == 0 && tableroMaquina[numeroMaquinaMunicion1+2] == 0){
+            if (numeroMaquinaMunicion1<=7 && machineBoard[numeroMaquinaMunicion1+1] == 0 && machineBoard[numeroMaquinaMunicion1+2] == 0){
                 numeroMaquinaMunicion2 = numeroMaquinaMunicion1+1;
                 numeroMaquinaMunicion3 = numeroMaquinaMunicion1+2;
                 break;
-            }else if (numeroMaquinaMunicion1>=2 && tableroMaquina[numeroMaquinaMunicion1-1] == 0 && tableroMaquina[numeroMaquinaMunicion1-2] == 0){
+            }else if (numeroMaquinaMunicion1>=2 && machineBoard[numeroMaquinaMunicion1-1] == 0 && machineBoard[numeroMaquinaMunicion1-2] == 0){
                 numeroMaquinaMunicion2 = numeroMaquinaMunicion1-1;
                 numeroMaquinaMunicion3 = numeroMaquinaMunicion1-2;
                 break;
             }
         }
-        tableroMaquina[numeroMaquinaMunicion1] = 1;
-        tableroMaquina[numeroMaquinaMunicion2] = 1;
-        tableroMaquina[numeroMaquinaMunicion3] = 1;
+        machineBoard[numeroMaquinaMunicion1] = 1;
+        machineBoard[numeroMaquinaMunicion2] = 1;
+        machineBoard[numeroMaquinaMunicion3] = 1;
         
-        return tableroMaquina;
+        return machineBoard;
     }
 
-    public int [] disparo (Scanner in, Random random, int [] tableroJugador, int [] tableroMaquina, int [] tableroVisibleJugador){
+    public int [] shot (Scanner in, Random random, int [] playerBoard, int [] machineBoard, int [] playerVisionBoard){
 
         // Se hace el turno a turno
         while (true){
@@ -355,39 +355,39 @@ public class Battleship {
             disparoJugador -= 1;
             System.out.println("Has atacado la casilla " + (disparoJugador+1));
 
-            if (tableroMaquina[disparoJugador] == 1){
+            if (machineBoard[disparoJugador] == 1){
                 System.out.println("¡Le has dado a un objetivo!");
                 if (disparoJugador==numeroMaquinaLancha){
-                    tableroVisibleJugador[disparoJugador] = 3;
-                    tableroMaquina[disparoJugador] = 3;
+                    playerVisionBoard[disparoJugador] = 3;
+                    machineBoard[disparoJugador] = 3;
                     System.out.println("¡Enhorabauena! Has hundido la Lancha");
 
                 }else if (disparoJugador==numeroMaquinaMedico1 || disparoJugador==numeroMaquinaMedico2){
-                    tableroVisibleJugador[disparoJugador] = 2;
-                    tableroMaquina[disparoJugador] = 2;
+                    playerVisionBoard[disparoJugador] = 2;
+                    machineBoard[disparoJugador] = 2;
                     System.out.println("Le has dado a el barco Médico");
 
-                    if (tableroMaquina[numeroMaquinaMedico1]==2 && tableroMaquina[numeroMaquinaMedico2]==2){
-                        tableroVisibleJugador[numeroMaquinaMedico1] =3;
-                        tableroVisibleJugador[numeroMaquinaMedico2] =3;
+                    if (machineBoard[numeroMaquinaMedico1]==2 && machineBoard[numeroMaquinaMedico2]==2){
+                        playerVisionBoard[numeroMaquinaMedico1] =3;
+                        playerVisionBoard[numeroMaquinaMedico2] =3;
 
-                        tableroMaquina[numeroMaquinaMedico1] =3;
-                        tableroMaquina[numeroMaquinaMedico2] =3;
+                        machineBoard[numeroMaquinaMedico1] =3;
+                        machineBoard[numeroMaquinaMedico2] =3;
                         System.out.println("¡Enhorabauena! Has derribado el barco Médico");
                     }
                 }else if(disparoJugador==numeroMaquinaMunicion1 || disparoJugador==numeroMaquinaMunicion2 || disparoJugador==numeroMaquinaMunicion3){
-                    tableroVisibleJugador[disparoJugador] = 2;
-                    tableroMaquina[disparoJugador] = 2;
+                    playerVisionBoard[disparoJugador] = 2;
+                    machineBoard[disparoJugador] = 2;
                     System.out.println("Le has dado al barco Munición");
 
-                    if (tableroMaquina[numeroMaquinaMunicion1]==2 && tableroMaquina[numeroMaquinaMunicion2]==2 && tableroMaquina[numeroMaquinaMunicion3]==2){
-                        tableroVisibleJugador[numeroMaquinaMunicion1] =3;
-                        tableroVisibleJugador[numeroMaquinaMunicion2] =3;
-                        tableroVisibleJugador[numeroMaquinaMunicion3] =3;
+                    if (machineBoard[numeroMaquinaMunicion1]==2 && machineBoard[numeroMaquinaMunicion2]==2 && machineBoard[numeroMaquinaMunicion3]==2){
+                        playerVisionBoard[numeroMaquinaMunicion1] =3;
+                        playerVisionBoard[numeroMaquinaMunicion2] =3;
+                        playerVisionBoard[numeroMaquinaMunicion3] =3;
 
-                        tableroMaquina[numeroMaquinaMunicion1] =3;
-                        tableroMaquina[numeroMaquinaMunicion2] =3;
-                        tableroMaquina[numeroMaquinaMunicion3] =3;
+                        machineBoard[numeroMaquinaMunicion1] =3;
+                        machineBoard[numeroMaquinaMunicion2] =3;
+                        machineBoard[numeroMaquinaMunicion3] =3;
                         System.out.println("¡Enhorabauena! Has derribado el barco Munición");
                     }
                 }
@@ -396,22 +396,22 @@ public class Battleship {
             }
 
             System.out.println("Así se ve la linea enemiga por el momento");
-            mostrarTablero(tableroVisibleJugador);
+            mostrarTablero(playerVisionBoard);
 
-            tableroJugador = disparoMaquina(random, tableroJugador);
+            playerBoard = machineShot(random, playerBoard);
 
 
             System.out.println("");
-            int ganador = determinarGanador(tableroJugador, tableroVisibleJugador);
+            int ganador = determinarGanador(playerBoard, playerVisionBoard);
 
             if (ganador == 7){
                 break;
             }
         }
-        return tableroJugador;
+        return playerBoard;
     }
 
-    public int [] disparoMaquina (Random random, int [] tableroJugador){
+    public int [] machineShot (Random random, int [] playerBoard){
         
         int disparoMaquina = 0;
 
@@ -423,29 +423,29 @@ public class Battleship {
 
         System.out.println("La maquina ataca la casilla: " + (disparoMaquina+1));
 
-        if (tableroJugador[disparoMaquina] == 1){
+        if (playerBoard[disparoMaquina] == 1){
             System.out.println("¡Te han dado!");
 
-            if (disparoMaquina == lanchaJugador-1){
+            if (disparoMaquina == playerBoat-1){
                 System.out.println("Te han derribado la Lancha");
-                tableroJugador[disparoMaquina] = 3;
+                playerBoard[disparoMaquina] = 3;
 
-            }else if (disparoMaquina == medicoJugador1-1 || disparoMaquina == medicoJugador2-1){
+            }else if (disparoMaquina == playerMedicShip1-1 || disparoMaquina == playerMedicShip2-1){
                 System.out.println("Te han dado al barco Médico");
-                tableroJugador[disparoMaquina] = 2;
-                if (tableroJugador[medicoJugador1-1] == 2 && tableroJugador[medicoJugador2-1] == 2){
+                playerBoard[disparoMaquina] = 2;
+                if (playerBoard[playerMedicShip1-1] == 2 && playerBoard[playerMedicShip2-1] == 2){
                     System.out.println("Te han derribado el barco Médico");
-                    tableroJugador[medicoJugador1-1] = 3;
-                    tableroJugador[medicoJugador2] = 3;
+                    playerBoard[playerMedicShip1-1] = 3;
+                    playerBoard[playerMedicShip2] = 3;
                 }
-            }else if (disparoMaquina == municionJugador1-1 || disparoMaquina == municionJugador2-1 || disparoMaquina == municionJugador3-1){
+            }else if (disparoMaquina == playerAmmoShip1-1 || disparoMaquina == playerAmmoShip2-1 || disparoMaquina == playerAmmoShip3-1){
                 System.out.println("Te han dado al barco Munición");
-                tableroJugador[disparoMaquina] = 2;
-                if (tableroJugador[municionJugador1-1] == 2 && tableroJugador[municionJugador2-1] == 2 && tableroJugador[municionJugador3-1] == 2){
+                playerBoard[disparoMaquina] = 2;
+                if (playerBoard[playerAmmoShip1-1] == 2 && playerBoard[playerAmmoShip2-1] == 2 && playerBoard[playerAmmoShip3-1] == 2){
                     System.out.println("Te han derribado el barco Munición");
-                    tableroJugador[municionJugador1-1] = 3;
-                    tableroJugador[municionJugador2-1] = 3;
-                    tableroJugador[municionJugador3-1] = 3;
+                    playerBoard[playerAmmoShip1-1] = 3;
+                    playerBoard[playerAmmoShip2-1] = 3;
+                    playerBoard[playerAmmoShip3-1] = 3;
                 }
             }
         }else {
@@ -454,16 +454,16 @@ public class Battleship {
         }
         
         System.out.println("Así se ve tu linea por el momento");
-        mostrarTablero(tableroJugador);
+        mostrarTablero(playerBoard);
 
-        return tableroJugador;
+        return playerBoard;
     }
 
-    public int determinarGanador (int [] tableroJugador, int [] tableroVisibleJugador){
+    public int determinarGanador (int [] playerBoard, int [] playerVisionBoard){
         
         int contador = 0;
-        for (int i = 0; i<tableroJugador.length; i++){
-            if (tableroJugador[i] == 3){
+        for (int i = 0; i<playerBoard.length; i++){
+            if (playerBoard[i] == 3){
                 contador += 1;
             }
         }
@@ -478,8 +478,8 @@ public class Battleship {
         }
 
 
-        for (int i = 0; i<tableroVisibleJugador.length; i++){
-            if (tableroVisibleJugador[i] == 3){
+        for (int i = 0; i<playerVisionBoard.length; i++){
+            if (playerVisionBoard[i] == 3){
                 contador += 1;
             }
         }
@@ -495,13 +495,13 @@ public class Battleship {
         return ganador;
     }
 
-    public int [] mostrarTablero (int [] tablero){
+    public int [] mostrarTablero (int [] board){
 
-        for(int i = 0; i<tablero.length; i++){
-            System.out.print(tablero[i] + " ");
+        for(int i = 0; i<board.length; i++){
+            System.out.print(board[i] + " ");
         }
         System.out.println("\n");
-        return tablero;
+        return board;
     }
 
 }
